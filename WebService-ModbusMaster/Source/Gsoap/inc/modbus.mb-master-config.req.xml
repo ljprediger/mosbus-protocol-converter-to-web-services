@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SOAP-ENV:Envelope
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:modbus">
+ <SOAP-ENV:Body SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+  <ns:mb-master-config>
+   <config>
+    <Trasporte>0</Trasporte>
+    <Cant-Reintentos>0</Cant-Reintentos>
+    <Time-Out>0</Time-Out>
+    <Baud-Rate>0</Baud-Rate>
+    <Data-Bits>0</Data-Bits>
+    <Parity-Bits>0</Parity-Bits>
+    <Stop-Bits>0</Stop-Bits>
+   </config>
+  </ns:mb-master-config>
+ </SOAP-ENV:Body>
+</SOAP-ENV:Envelope>

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="modbus"
+ targetNamespace="urn:modbus"
+ xmlns:tns="urn:modbus"
+ xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+ xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+ xmlns:ns="urn:modbus"
+ xmlns:SOAP="http://schemas.xmlsoap.org/wsdl/soap/"
+ xmlns:MIME="http://schemas.xmlsoap.org/wsdl/mime/"
+ xmlns:DIME="http://schemas.xmlsoap.org/ws/2002/04/dime/wsdl/"
+ xmlns:WSDL="http://schemas.xmlsoap.org/wsdl/"
+ xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+<types>
+
+ <schema targetNamespace="urn:modbus"
+  xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+  xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:ns="urn:modbus"
+  xmlns="http://www.w3.org/2001/XMLSchema"
+  elementFormDefault="unqualified"
+  attributeFormDefault="unqualified">
+  <import namespace="http://schemas.xmlsoap.org/soap/encoding/" schemaLocation="http://schemas.xmlsoap.org/soap/encoding/"/>
+  <complexType name="ArrayOfunsignedByte">
+   <complexContent>
+    <restriction base="SOAP-ENC:Array">
+     <sequence>
+      <element name="item" type="xsd:unsignedByte" minOccurs="0" maxOccurs="unbounded" nillable="false"/>
+     </sequence>
+     <attribute ref="SOAP-ENC:arrayType" WSDL:arrayType="xsd:unsignedByte[]"/>
+    </restriction>
+   </complexContent>
+  </complexType>
+  <complexType name="mb-master-config">
+   <sequence>
+     <element name="Trasporte" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="Cant-Reintentos" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="Time-Out" type="xsd:unsignedShort" minOccurs="1" maxOccurs="1"/>
+     <element name="Baud-Rate" type="xsd:unsignedLong" minOccurs="1" maxOccurs="1"/>
+     <element name="Data-Bits" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="Parity-Bits" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+     <element name="Stop-Bits" type="xsd:unsignedByte" minOccurs="1" maxOccurs="1"/>
+   </sequence>
+  </complexType>
+ </schema>
+
+</types>
+
+<message name="mb-master-consulta">
+ <part name="pregunta" type="ns:mb-pdu-decimal"/>
+</message>
+
+<message name="mb-pdu-decimal">
+ <part name="ID-escalvo" type="xsd:unsignedByte"/>
+ <part name="funcion" type="xsd:unsignedByte"/>
+ <part name="datos" type="ns:ArrayOfunsignedByte"/>
+</message>
+
+<message name="mb-master-configRequest">
+ <part name="config" type="ns:mb-master-config"/>
+</message>
+
+<message name="mb-master-configResponse">
+ <part name="mb-error-config" type="xsd:unsignedByte"/>
+</message>
+
+<portType name="modbusPortType">
+ <operation name="mb-master-consulta">
+  <documentation>Service definition of function ns__mb_master_consulta</documentation>
+  <input message="tns:mb-master-consulta"/>
+  <output message="tns:mb-pdu-decimal"/>
+ </operation>
+ <operation name="mb-master-config">
+  <documentation>Service definition of function ns__mb_master_config</documentation>
+  <input message="tns:mb-master-configRequest"/>
+  <output message="tns:mb-master-configResponse"/>
+ </operation>
+</portType>
+
+<binding name="modbus" type="tns:modbusPortType">
+ <SOAP:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+ <operation name="mb-master-consulta">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:modbus" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:modbus" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+ <operation name="mb-master-config">
+  <SOAP:operation style="rpc" soapAction=""/>
+  <input>
+     <SOAP:body use="encoded" namespace="urn:modbus" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </input>
+  <output>
+     <SOAP:body use="encoded" namespace="urn:modbus" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+  </output>
+ </operation>
+</binding>
+
+<service name="modbus">
+ <documentation>master</documentation>
+ <port name="modbus" binding="tns:modbus">
+  <SOAP:address location="http://192.168.0.200:24"/>
+ </port>
+</service>
+
+</definitions>
